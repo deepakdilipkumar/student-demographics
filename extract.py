@@ -1,22 +1,21 @@
-import HTMLParser
-import urllib
+import re
 
-urlText = []
+with open("2012.txt") as f:
+	content=f.readlines()
 
-#Define HTML Parser
-class parseText(HTMLParser.HTMLParser):
-        
-    def handle_data(self, data):
-        if data != '\n':
-            urlText.append(data)
-    
+rollNo=[]
+pincode=[]
+regexRollNumber= re.compile("[0-9]{9}")
+regexPincode= re.compile("[0-9]{6}")
 
-#Create instance of HTML parser
-lParser = parseText()
+for line in content: 
+	if ( regexRollNumber.search(line) ):  # Roll number
+		rollNo.append( regexRollNumber.search(line).group(0)  )
 
-thisurl = "http://www-rohan.sdsu.edu/~gawron/index.html"
-#Feed HTML file into parser
-lParser.feed(urllib.urlopen(thisurl).read())
-lParser.close()
-for item in urlText:
-    print item
+	else:
+		if (regexPincode.search(line)):    #Pin Code
+			pincode.append( regexPincode.search(line).group(0) ) 
+
+
+print rollNo[len(rollNo)-1]
+print pincode[len(pincode)-1]
