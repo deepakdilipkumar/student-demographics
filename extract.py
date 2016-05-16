@@ -5,16 +5,18 @@ with open("2012.txt") as f:
 
 rollNo=[]
 pincode=[]
-regexRollNumber = re.compile("[0-9]{2}.[0-9]{6}")
+regexRollNumber = re.compile("[0-9]{2}.[0-9]{6} -")
 regexPincode= re.compile("[0-9]{6}")
+regexMob = re.compile("[0-9]{10}")
 
 for line in content: 
-	if ( regexRollNumber.search(line)):  # Roll number
-		rollNo.append( regexRollNumber.search(line).group(0)  )
+	if not regexMob.search(line):
+		if ( regexRollNumber.search(line)):  # Roll number
+			rollNo.append( regexRollNumber.search(line).group(0)  )
 
-	else:
-		if (regexPincode.search(line)):    #Pin Code
-			pincode.append( regexPincode.search(line).group(0) ) 
+		else:
+			if (regexPincode.search(line)):    #Pin Code
+				pincode.append( regexPincode.search(line).group(0) ) 
 
 
 print rollNo[len(rollNo)-1]
