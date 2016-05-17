@@ -33,7 +33,7 @@ def location(pincode):
 	elif first =="49":
 		return "Chhattisgarh"
 	elif first >="50" and first <="53":
-		return "Andhra Pradesh"
+		return "Andhra Pradesh/Telangana"
 	elif first >="56" and first <="59":
 		return "Karnataka"
 	elif first >="60" and first <="64":
