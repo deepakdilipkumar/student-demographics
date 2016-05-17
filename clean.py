@@ -1,7 +1,7 @@
 import csv 
 
 
-department=["","Aerospace","Chemical","","Civil","Computer Science","","Electrical","","","Mechanical","Metallurgical","","","","","","","","","","","","","","","Engineering Physics"]
+department=["","Aerospace","Chemical","Chemistry","Civil","Computer Science","","Electrical","","","Mechanical","Metallurgical","","","","","","Energy","","","","","","","","","Engineering Physics"]
 
 def location(pincode):
 	first = str(pincode)[0:2]
@@ -74,10 +74,12 @@ for row in initialcsv:
 	allPinCodes.append(pin)
 	print rno
 	depts.append(department[int(str(rno)[3:5])])
-	if str(rno)[2] == "0":
-		prog.append("BTech")
-	elif str(rno)[2] == "D":
+	if str(rno)[2] == "D":
 		prog.append("DD")
+	elif str(rno)[2] == "0":
+		prog.append("BTech")
+	elif str(rno)[2] == "1":
+		prog.append("MSc")
 	batch.append(year)
 	state.append(location(pin))
 
