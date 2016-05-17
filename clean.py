@@ -5,11 +5,11 @@ department=["","Aerospace","Chemical","Chemistry","Civil","Computer Science","",
 
 def location(pincode):
 	first = str(pincode)[0:2]
-	island = str(pincode)[0:3]
-	if island=="682":
-		return "Lakshwadeep"
-	elif island =="744":
-		return "Andaman and Nicobar"
+	#island = str(pincode)[0:3]
+	#if island=="682":
+	#	return "Lakshwadeep"
+	#elif island =="744":
+	#	return "Andaman and Nicobar"
 	if first=="11":
 		return "Delhi"
 	elif first =="12" or first =="13":
@@ -48,7 +48,7 @@ def location(pincode):
 		return "Assam"
 	elif first =="79":
 		return "North-Eastern States"
-	elif first >="80" and first <="85":
+	elif first >="84" and first <="85":
 		return "Bihar"
 	elif first >="80" and first <="83":
 		return "Bihar/Jharkhand"
@@ -63,27 +63,28 @@ prog=[]
 state=[]
 
 
-#for year in ["2011"."2012","2013","2014"]:
-year="2012"
-f= open(year+".csv","rb")
-initialcsv = csv.reader(f)
-for row in initialcsv:
-	rno = row[0]
-	pin = row[1]
-	allRollNos.append(rno)
-	allPinCodes.append(pin)
-	print rno
-	depts.append(department[int(str(rno)[3:5])])
-	if str(rno)[2] == "D":
-		prog.append("DD")
-	elif str(rno)[2] == "0":
-		prog.append("BTech")
-	elif str(rno)[2] == "1":
-		prog.append("MSc")
-	batch.append(year)
-	state.append(location(pin))
+for year in ["2011","2012","2013","2014"]:
+	f= open(year+".csv","rb")
+	initialcsv = csv.reader(f)
+	for row in initialcsv:
+		rno = row[0]
+		pin = row[1]
+		allRollNos.append(rno)
+		allPinCodes.append(pin)
+		print rno
+		depts.append(department[int(str(rno)[3:5])])
+		if str(rno)[2] == "D":
+			prog.append("DD")
+		elif str(rno)[2] == "0":
+			prog.append("BTech")
+		elif str(rno)[2] == "1":
+			prog.append("MSc")
+		elif str(rno)[2] == "B":
+			prog.append("BS")
+		batch.append(year)
+		state.append(location(pin))
 
-c = csv.writer(open("Overall.csv", "wb"))
+c = csv.writer(open("demographics.csv", "wb"))
 c.writerow(["Roll Number","Batch","Department","Programme","Pincode","State"])
 
 for i in range(len(allRollNos)):
