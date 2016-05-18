@@ -12,10 +12,10 @@ dfDemographics <- dfDemographics[dfDemographics$Pincode!="0",]
 
 latFactor <- factor(dfDemographics$Latitude)
 lonFactor <- factor(dfDemographics$Longitude)
-dfDemographics$Longitude <- as.numeric(levels(latFactor))[latFactor]
-dfDemographics$Latitude <- as.numeric(levels(lonFactor))[lonFactor]
+dfDemographics$Latitude <- as.numeric(levels(latFactor))[latFactor]
+dfDemographics$Longitude <- as.numeric(levels(lonFactor))[lonFactor]
 
 theme_set(theme_bw(16))
 indiaMap <- qmap("India", zoom = 5, legend = "topleft")
 indiaMap + 
-geom_point(aes(x = Longitude, y = Latitude), data = dfDemographics[dfDemographics$Year=="2011",])
+geom_point(aes(x = Longitude, y = Latitude), data = dfDemographics)
