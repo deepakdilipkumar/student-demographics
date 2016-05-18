@@ -6,7 +6,6 @@ year = "2011"
 with open(year+".txt") as f:
 	content=f.readlines()
 
-
 rollNo=[]
 pincode=[]
 regexRollNumber = re.compile("\D([0-9]{2}.[0-9]{6})\D")
@@ -23,19 +22,14 @@ for line in content:
 			pinindex+=1
 			pincode.append('')
 
-		#rollNo[rollindex] = regexRollNumber.findall(line)[0]
 		rollNo.append(regexRollNumber.findall(line)[0])
 		rollindex+=1
-		print rollindex
 
 	else:
 		if (regexPincode.search(line) and rollindex>pinindex):    #Pin Code, and to avoid pin code duplication
-			#pincode[pinindex] = regexPincode.findall(line)[0] 
 			pincode.append(regexPincode.findall(line)[0] )
 			pinindex+=1
 
-print len(rollNo)
-print len(pincode)
 print howmany
 
 c = csv.writer(open(year+".csv", "wb"))

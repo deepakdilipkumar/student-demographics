@@ -1,6 +1,5 @@
 import csv 
 
-
 department=["","Aerospace","Chemical","Chemistry","Civil","Computer Science","","Electrical","","","Mechanical","Metallurgical","","","","","","Energy","","","","","","","","","Engineering Physics"]
 
 def location(pincode):
@@ -71,7 +70,6 @@ for year in ["2011","2012","2013","2014"]:
 		pin = row[1]
 		allRollNos.append(rno)
 		allPinCodes.append(pin)
-		print rno
 		depts.append(department[int(str(rno)[3:5])])
 		if str(rno)[2] == "D":
 			prog.append("DD")
