@@ -15,7 +15,23 @@ lonFactor <- factor(dfDemographics$Longitude)
 dfDemographics$Latitude <- as.numeric(levels(latFactor))[latFactor]
 dfDemographics$Longitude <- as.numeric(levels(lonFactor))[lonFactor]
 
+District={}
+numStudents={}
+Longitude={}
+Latitude={}
+
+for (dist in levels(factor(dfDemographics2012$District))){
+	distStudents =  dfDemographics[dfDemographics$District==dist,]
+	numStudents=c(numStudents,length(distStudents$District))
+	District=c(District,dist)
+	Longitude = c(Longitude,mean(distStudents$Longitude))
+	Latitude = c(Latitude, mean(distStudents$Latitude))
+}
+
+dfDistrictDemographics2012 = data.frame(District,Longitude,Latitude, numStudents)
+
+
 theme_set(theme_bw(16))
 indiaMap <- qmap("India", zoom = 5, legend = "topleft")
 indiaMap + 
-geom_point(aes(x = Longitude, y = Latitude), data = dfDemographics)
+geom_point(aes(x = Longitude, y = Latitude, size=numStudents), data = dfDistrictDemographics2012)
