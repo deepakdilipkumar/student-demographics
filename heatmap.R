@@ -1,6 +1,7 @@
 library("ggmap")
 library("ggplot2")
 library("sp")
+library("SDMTools")
 
 dfDemographics2011 <- read.csv("2011.csv", head=TRUE, as.is=TRUE)
 dfDemographics2012 <- read.csv("2012.csv", head=TRUE, as.is=TRUE)
@@ -39,22 +40,10 @@ for (dist in levels(factor(dfDemographics2012$District))){
 
 dfDistrictDemographics2012 = data.frame(District,Longitude,Latitude, numStudents)
 
-
-
-# District wise grouping
-
-#theme_set(theme_bw(16))
-#indiaMap <- qmap("India", zoom = 5, source = "google", maptype = "hybrid", legend = "topright") #terrain, satellite, roadmap, hybrid
-#indiaMap + 
-#geom_point(aes(x = Longitude, y = Latitude, size= numStudents, darken=0.5), data = dfDistrictDemographics2012)
-#facet_wrap(~ year)
-#+ stat_density2d(aes(x = Longitude, y = Latitude),size = 2, bins = 4, data = dfDemographics,geom = "polygon")
-
-# Heat Map
-
 statecolor={}
 heat={}
 statewise= table(dfDemographics2012$State)
+statewise
 for (state in names(statewise)) {
 	heat=c(heat,statewise[state]/max(statewise))
 	#statecolor = c(statecolor,rgb(1,0,0,heat))
@@ -63,20 +52,18 @@ heatdf = data.frame(names(statewise),heat)
 india<- readRDS("IND_adm2.rds")
 indiaMapdf <- india@data
 
-#table(dfDemographics2012$State)
-#table(indiaMapdf$NAME_1)
-#heatdf
 locColor=rep(0,length(indiaMapdf$OBJECTID))
 locColor
 for (id in indiaMapdf$OBJECTID){
-	print(id)
 	if (length(heatdf[heatdf[,1]==toupper(indiaMapdf$NAME_1[id]),2])>0) {
 	locColor[id] <- heatdf[heatdf[,1]==toupper(indiaMapdf$NAME_1[id]),2]
 }
 }
 
 
-print(locColor)
-pdf(file="india.pdf")
-plot(india, col=rgb(1,0,0,locColor))
+pdf(file="statewise.pdf")
+plot(india, col=rgb(0,0,1,locColor))
+title(main="State Wise Distribution of 2012 IITB Entrants")
+pnts = cbind(x =c(60,66,66,60), y =c(30,30,15,15))
+legend.gradient(pnts,col=c(rgb(0,0,1,0),rgb(0,0,1,0.25),rgb(0,0,1,0.5),rgb(0,0,1,0.75),rgb(0,0,1,1)),limits=c(0,max(statewise)),title="Students")
 dev.off()
