@@ -1,5 +1,6 @@
 library("ggmap")
 library("ggplot2")
+library("sp")
 
 dfDemographics2011 <- read.csv("2011.csv", head=TRUE, as.is=TRUE)
 dfDemographics2012 <- read.csv("2012.csv", head=TRUE, as.is=TRUE)
@@ -9,6 +10,14 @@ dfDemographics2014 <- read.csv("2014.csv", head=TRUE, as.is=TRUE)
 dfDemographics <- rbind(dfDemographics2011,dfDemographics2012,dfDemographics2013,dfDemographics2014)
 dfDemographics <- dfDemographics[dfDemographics$Pincode!="0",]
 
+dfDemographics[dfDemographics$State=="CHATTISGARH","State"] <- "CHHATTISGARH"
+dfDemographics[dfDemographics$State=="DELHI","State"] <- "NCT OF DELHI"
+dfDemographics[dfDemographics$State=="JAMMU & KASHMIR","State"] <- "JAMMU AND KASHMIR"
+#dfDemographics[dfDemographics$State=="","State"] <- ""
+
+dfDemographics2012[dfDemographics2012$State=="CHATTISGARH","State"] <- "CHHATTISGARH"
+dfDemographics2012[dfDemographics2012$State=="DELHI","State"] <- "NCT OF DELHI"
+dfDemographics2012[dfDemographics2012$State=="JAMMU & KASHMIR","State"] <- "JAMMU AND KASHMIR"
 
 latFactor <- factor(dfDemographics$Latitude)
 lonFactor <- factor(dfDemographics$Longitude)
@@ -31,6 +40,7 @@ for (dist in levels(factor(dfDemographics2012$District))){
 dfDistrictDemographics2012 = data.frame(District,Longitude,Latitude, numStudents)
 
 
+
 # District wise grouping
 
 #theme_set(theme_bw(16))
@@ -43,24 +53,30 @@ dfDistrictDemographics2012 = data.frame(District,Longitude,Latitude, numStudents
 # Heat Map
 
 statecolor={}
+heat={}
 statewise= table(dfDemographics2012$State)
 for (state in names(statewise)) {
-	heat=statewise[state]/max(statewise)
-	statecolor = c(statecolor,rgb(1,0,0,heat))
+	heat=c(heat,statewise[state]/max(statewise))
+	#statecolor = c(statecolor,rgb(1,0,0,heat))
 }
-heatdf = data.frame(names(statewise),statecolor)
-head(heatdf)
+heatdf = data.frame(names(statewise),heat)
 india<- readRDS("IND_adm2.rds")
 indiaMapdf <- india@data
 
-levels(dfDemographics2012)
-levels(heatdf)
-
-locColor={}
-for (loc in indiaMapdf$NAME_1){
-	locColor=c(locColor,heatdf[heatdf[,1]==loc,2])
-	c=loc
+#table(dfDemographics2012$State)
+#table(indiaMapdf$NAME_1)
+#heatdf
+locColor=rep(0,length(indiaMapdf$OBJECTID))
+locColor
+for (id in indiaMapdf$OBJECTID){
+	print(id)
+	if (length(heatdf[heatdf[,1]==toupper(indiaMapdf$NAME_1[id]),2])>0) {
+	locColor[id] <- heatdf[heatdf[,1]==toupper(indiaMapdf$NAME_1[id]),2]
 }
-c
-head(locColor)
-plot(india, col=locColor)
+}
+
+
+print(locColor)
+pdf(file="india.pdf")
+plot(india, col=rgb(1,0,0,locColor))
+dev.off()
