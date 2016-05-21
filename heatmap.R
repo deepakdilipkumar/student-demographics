@@ -34,38 +34,33 @@ dfDistrictDemographics2012 = data.frame(District,Longitude,Latitude, numStudents
 # District wise grouping
 
 #theme_set(theme_bw(16))
-indiaMap <- qmap("India", zoom = 5, source = "google", maptype = "hybrid", legend = "topright") #terrain, satellite, roadmap, hybrid
-indiaMap + 
-geom_point(aes(x = Longitude, y = Latitude, size= numStudents, darken=0.5), data = dfDistrictDemographics2012)
+#indiaMap <- qmap("India", zoom = 5, source = "google", maptype = "hybrid", legend = "topright") #terrain, satellite, roadmap, hybrid
+#indiaMap + 
+#geom_point(aes(x = Longitude, y = Latitude, size= numStudents, darken=0.5), data = dfDistrictDemographics2012)
 #facet_wrap(~ year)
 #+ stat_density2d(aes(x = Longitude, y = Latitude),size = 2, bins = 4, data = dfDemographics,geom = "polygon")
 
 # Heat Map
 
-load("IND_adm2.RData")
-india.adm2.spdf <- get("gadm")
+statecolor={}
+statewise= table(dfDemographics2012$State)
+for (state in names(statewise)) {
+	heat=statewise[state]/max(statewise)
+	statecolor = c(statecolor,rgb(1,0,0,heat))
+}
+heatdf = data.frame(names(statewise),statecolor)
+head(heatdf)
+india<- readRDS("IND_adm2.rds")
+indiaMapdf <- india@data
 
-india.adm2.df <- fortify(india.adm2.spdf, region = "NAME_2")
+levels(dfDemographics2012)
+levels(heatdf)
 
-
-india.adm2.df <- merge(india.adm2.df, unemployment.df, by.y = 'id', all.x = TRUE)
-# Get centroids of spatialPolygonDataFrame and convert to dataframe
-# for use in plotting  area names. 
-
-india.adm2.centroids.df <- data.frame(long = coordinates(india.adm2.spdf)[, 1], 
-   lat = coordinates(india.adm2.spdf)[, 2]) 
-
-# Get names and id numbers corresponding to administrative areas
-india.adm2.centroids.df[, 'ID_2'] <- india.adm2.spdf@data[,'ID_2']
-india.adm2.centroids.df[, 'NAME_2'] <- india.adm2.spdf@data[,'NAME_2']
-
-p <- ggplot(india.adm2.df, aes(x = long, y = lat, group = group)) + geom_polygon(aes(fill = cut(unemployment,5))) +
-geom_text(data = india.adm2.centroids.df, aes(label = NAME_2, x = long, y = lat, group = NAME_2), size = 3) + 
-labs(x=" ", y=" ") + 
-theme_bw() + scale_fill_brewer('JEE Entrants 2012', palette  = 'PuRd') + 
-coord_map() + 
-theme(panel.grid.minor=element_blank(), panel.grid.major=element_blank()) + 
-theme(axis.ticks = element_blank(), axis.text.x = element_blank(), axis.text.y = element_blank()) + 
-theme(panel.border = element_blank())
-
-print(p)
+locColor={}
+for (loc in indiaMapdf$NAME_1){
+	locColor=c(locColor,heatdf[heatdf[,1]==loc,2])
+	c=loc
+}
+c
+head(locColor)
+plot(india, col=locColor)
