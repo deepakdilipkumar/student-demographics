@@ -11,7 +11,7 @@ dfDemographics <- dfDemographics[dfDemographics$Pincode!="0",]
 
 latFactor <- factor(dfDemographics$Latitude)
 lonFactor <- factor(dfDemographics$Longitude)
-dfDemographics$Latitude <- as.numeric(levels(latFactor))[latFactor]
+dfDemographics$Latitude <- as.numeric(levels(latFactor))[latFactor]		#Convert from character to numeric
 dfDemographics$Longitude <- as.numeric(levels(lonFactor))[lonFactor]
 
 District={}
@@ -19,11 +19,11 @@ numStudents={}
 Longitude={}
 Latitude={}
 
-for (dist in levels(factor(dfDemographics2012$District))){
+for (dist in levels(factor(dfDemographics2012$District))){						#Loop over districts
 	distStudents =  dfDemographics[dfDemographics$District==dist,]
-	numStudents=c(numStudents,length(distStudents$District))
+	numStudents=c(numStudents,length(distStudents$District))					#Count number of students in the district
 	District=c(District,dist)
-	Longitude = c(Longitude,mean(distStudents$Longitude))
+	Longitude = c(Longitude,mean(distStudents$Longitude))						#Take location of district as average of all pincodes in that district
 	Latitude = c(Latitude, mean(distStudents$Latitude))
 }
 
