@@ -11,7 +11,7 @@ dfDemographics2014 <- read.csv("2014.csv", head=TRUE, as.is=TRUE)
 dfDemographics <- rbind(dfDemographics2011,dfDemographics2012,dfDemographics2013,dfDemographics2014)
 dfDemographics <- dfDemographics[dfDemographics$Pincode!="0",]
 
-dfDemographics[dfDemographics$State=="CHATTISGARH","State"] <- "CHHATTISGARH"
+dfDemographics[dfDemographics$State=="CHATTISGARH","State"] <- "CHHATTISGARH"			
 dfDemographics[dfDemographics$State=="DELHI","State"] <- "NCT OF DELHI"
 dfDemographics[dfDemographics$State=="JAMMU & KASHMIR","State"] <- "JAMMU AND KASHMIR"
 #dfDemographics[dfDemographics$State=="","State"] <- ""
@@ -59,13 +59,12 @@ for (id in indiaMapdf$OBJECTID){
 }
 }
 
-
-pal <- colorRamp(c("yellow","red"))
-pal2 <- colorRampPalette(c("yellow","red"))
-cols<- pal(locColor)
+extremeColors <- c("yellow","darkgreen")
+pal <- colorRamp(extremeColors)
+pal2 <- colorRampPalette(extremeColors)
 pdf(file="statewise.pdf")
 #jpeg(file="statewise.jpeg")
-plot(india, col=pal(locColor))
+plot(india, col=rgb(pal(locColor),maxColorValue=255))
 title(main="State Wise Distribution of 2012 IITB Entrants")
 pnts = cbind(x =c(60,66,66,60), y =c(30,30,15,15))
 #legend.gradient(pnts,col=c(rgb(0,0,1,0),rgb(0,0,1,0.25),rgb(0,0,1,0.5),rgb(0,0,1,0.75),rgb(0,0,1,1)),limits=c(0,max(statewise)),title="Students")
