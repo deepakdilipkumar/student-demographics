@@ -45,7 +45,7 @@ heat={}
 statewise= table(dfDemographics2012$State)
 statewise
 for (state in names(statewise)) {
-	heat=c(heat,0.2+0.8*statewise[state]/max(statewise))
+	heat=c(heat,statewise[state]/max(statewise))
 	#statecolor = c(statecolor,rgb(1,0,0,heat))
 }
 heatdf = data.frame(names(statewise),heat)
@@ -53,7 +53,6 @@ india<- readRDS("IND_adm2.rds")
 indiaMapdf <- india@data
 
 locColor=rep(0,length(indiaMapdf$OBJECTID))
-locColor
 for (id in indiaMapdf$OBJECTID){
 	if (length(heatdf[heatdf[,1]==toupper(indiaMapdf$NAME_1[id]),2])>0) {
 	locColor[id] <- heatdf[heatdf[,1]==toupper(indiaMapdf$NAME_1[id]),2]
@@ -61,10 +60,14 @@ for (id in indiaMapdf$OBJECTID){
 }
 
 
+pal <- colorRamp(c("yellow","red"))
+pal2 <- colorRampPalette(c("yellow","red"))
+cols<- pal(locColor)
 pdf(file="statewise.pdf")
-plot(india, col=rgb(1,0,0,locColor))
+#jpeg(file="statewise.jpeg")
+plot(india, col=pal(locColor))
 title(main="State Wise Distribution of 2012 IITB Entrants")
 pnts = cbind(x =c(60,66,66,60), y =c(30,30,15,15))
 #legend.gradient(pnts,col=c(rgb(0,0,1,0),rgb(0,0,1,0.25),rgb(0,0,1,0.5),rgb(0,0,1,0.75),rgb(0,0,1,1)),limits=c(0,max(statewise)),title="Students")
-legend.gradient(pnts,col=c(rgb(1,0,0,0.2),rgb(1,0,0,0.4),rgb(1,0,0,0.6),rgb(1,0,0,0.8),rgb(1,0,0,1)),limits=c(0,max(statewise)),title="Students")
+legend.gradient(pnts,col=pal2(5),limits=c(0,max(statewise)),title="Students")
 dev.off()
