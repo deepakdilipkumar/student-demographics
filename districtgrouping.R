@@ -29,13 +29,8 @@ for (dist in levels(factor(dfDemographics2012$District))){
 
 dfDistrictDemographics2012 = data.frame(District,Longitude,Latitude, numStudents)
 
-
-
 # District wise grouping
 
-#theme_set(theme_bw(16))
-indiaMap <- qmap("India", zoom = 5, source = "google", maptype = "hybrid", legend = "topright") #terrain, satellite, roadmap, hybrid
+indiaMap <- qmap("India", zoom = 5, source = "google", maptype = "hybrid", legend = "topright") #terrain, satellite, roadmap or hybrid
 indiaMap + 
 geom_point(aes(x = Longitude, y = Latitude, size= numStudents, darken=0.5), data = dfDistrictDemographics2012)
-#facet_wrap(~ year)
-#+ stat_density2d(aes(x = Longitude, y = Latitude),size = 2, bins = 4, data = dfDemographics,geom = "polygon")
