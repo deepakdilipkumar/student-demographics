@@ -36,7 +36,7 @@ for (state in names(statewise)) {
 
 relStudentsdf = data.frame(names(statewise),relStudents)
 
-india <- readRDS("IND_adm2.rds")									#Read GADM data
+india <- readRDS("IND_adm1.rds")									#Read GADM data
 indiaMapdf <- india@data
 
 locColor=rep(0,length(indiaMapdf$OBJECTID))			
