@@ -3,10 +3,10 @@ library("ggplot2")
 library("sp")
 library("SDMTools")
 
-dfDemographics2011 <- read.csv("2011.csv", head=TRUE, as.is=TRUE)
-dfDemographics2012 <- read.csv("2012.csv", head=TRUE, as.is=TRUE)
-dfDemographics2013 <- read.csv("2013.csv", head=TRUE, as.is=TRUE)
-dfDemographics2014 <- read.csv("2014.csv", head=TRUE, as.is=TRUE)
+dfDemographics2011 <- read.csv("..//data//2011.csv", head=TRUE, as.is=TRUE)
+dfDemographics2012 <- read.csv("..//data//2012.csv", head=TRUE, as.is=TRUE)
+dfDemographics2013 <- read.csv("..//data//2013.csv", head=TRUE, as.is=TRUE)
+dfDemographics2014 <- read.csv("..//data//2014.csv", head=TRUE, as.is=TRUE)
 
 dfDemographics <- rbind(dfDemographics2011,dfDemographics2012,dfDemographics2013,dfDemographics2014)
 dfDemographics <- dfDemographics[dfDemographics$Pincode!="0",]							# Remove entries without a pin code
@@ -36,7 +36,7 @@ for (state in names(statewise)) {
 
 relStudentsdf = data.frame(names(statewise),relStudents)
 
-india <- readRDS("IND_adm1.rds")									#Read GADM data
+india <- readRDS("..//data//IND_adm1.rds")									#Read GADM data
 indiaMapdf <- india@data
 
 locColor=rep(0,length(indiaMapdf$OBJECTID))			
@@ -49,7 +49,7 @@ for (id in indiaMapdf$OBJECTID){				# Loop over all the locations stored in indi
 extremeColors <- c("gray","black")			#Gradient to choose from
 pal <- colorRamp(extremeColors)
 pal2 <- colorRampPalette(extremeColors)
-pdf(file=paste("heatmap",year,".pdf"))
+pdf(file=paste("..//output//heatmap",year,".pdf"))
 plot(india, col=rgb(pal(locColor),maxColorValue=255))
 title(main=paste("State Wise Distribution of",year,"IITB Entrants"))
 pnts = cbind(x =c(60,66,66,60), y =c(30,30,15,15))

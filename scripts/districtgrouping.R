@@ -2,10 +2,10 @@ library("ggmap")
 library("ggplot2")
 
 
-dfDemographics2011 <- read.csv("2011.csv", head=TRUE, as.is=TRUE)
-dfDemographics2012 <- read.csv("2012.csv", head=TRUE, as.is=TRUE)
-dfDemographics2013 <- read.csv("2013.csv", head=TRUE, as.is=TRUE)
-dfDemographics2014 <- read.csv("2014.csv", head=TRUE, as.is=TRUE)
+dfDemographics2011 <- read.csv("..//data//2011.csv", head=TRUE, as.is=TRUE)
+dfDemographics2012 <- read.csv("..//data//2012.csv", head=TRUE, as.is=TRUE)
+dfDemographics2013 <- read.csv("..//data//2013.csv", head=TRUE, as.is=TRUE)
+dfDemographics2014 <- read.csv("..//data//2014.csv", head=TRUE, as.is=TRUE)
 
 dfDemographics <- rbind(dfDemographics2011,dfDemographics2012,dfDemographics2013,dfDemographics2014)
 dfDemographics <- dfDemographics[dfDemographics$Pincode!="0",]
@@ -39,7 +39,7 @@ numStudents
 sum(numStudents)
 # District wise grouping
 
-pdf(file=paste("district grouping",year,".pdf"))
+pdf(file=paste("..//output//district grouping",year,".pdf"))
 indiaMap <- qmap("India", zoom = 5, source = "google", maptype = "hybrid", legend = "topright") #terrain, satellite, roadmap or hybrid
 indiaMap + 
 geom_point(aes(x = Longitude, y = Latitude, size= numStudents, darken=0.5), data = dfDistrictDemographics)

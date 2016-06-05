@@ -63,7 +63,7 @@ state=[]
 
 
 for year in ["2011","2012","2013","2014"]:
-	f= open(year+".csv","rb")
+	f= open("..//data//"+year+".csv","rb")
 	initialcsv = csv.reader(f)
 	for row in initialcsv:
 		rno = row[0]
@@ -82,7 +82,7 @@ for year in ["2011","2012","2013","2014"]:
 		batch.append(year)
 		state.append(location(pin))
 
-c = csv.writer(open("demographics.csv", "wb"))
+c = csv.writer(open("..//data//demographics.csv", "wb"))
 c.writerow(["Roll Number","Batch","Department","Programme","Pincode","State"])
 
 for i in range(len(allRollNos)):

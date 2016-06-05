@@ -3,7 +3,7 @@ import csv
 
 year = "2011"
 
-with open(year+".txt") as f:
+with open("..//data//"+year+".txt") as f:
 	content=f.readlines()
 
 rollNo=[]
@@ -32,7 +32,7 @@ for line in content:
 
 print howmany
 
-c = csv.writer(open(year+".csv", "wb"))
+c = csv.writer(open("..//data//"+year+".csv", "wb"))
 c.writerow(["Roll Number","Pincode"])
 
 for i in range(len(rollNo)):
