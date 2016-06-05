@@ -32,8 +32,8 @@ for line in content:
 
 print howmany
 
-c = csv.writer(open("..//data//"+year+".csv", "wb"))
-c.writerow(["Roll Number","Pincode"])
+c = csv.writer(open("..//data//old"+year+".csv", "wb"))
+#c.writerow(["Roll Number","Pincode"])
 
 for i in range(len(rollNo)):
 	c.writerow([rollNo[i],pincode[i]])

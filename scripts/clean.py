@@ -63,7 +63,7 @@ state=[]
 
 
 for year in ["2011","2012","2013","2014"]:
-	f= open("..//data//"+year+".csv","rb")
+	f= open("..//data//old"+year+".csv","rb")
 	initialcsv = csv.reader(f)
 	for row in initialcsv:
 		rno = row[0]
@@ -79,11 +79,20 @@ for year in ["2011","2012","2013","2014"]:
 			prog.append("MSc")
 		elif str(rno)[2] == "B":
 			prog.append("BS")
+		else:
+			prog.append("NA")
 		batch.append(year)
 		state.append(location(pin))
 
 c = csv.writer(open("..//data//demographics.csv", "wb"))
 c.writerow(["Roll Number","Batch","Department","Programme","Pincode","State"])
+
+print(len(allRollNos))
+print(len(batch))
+print(len(depts))
+print(len(prog))
+print(len(allPinCodes))
+print(len(state))
 
 for i in range(len(allRollNos)):
 	c.writerow([allRollNos[i],batch[i],depts[i],prog[i],allPinCodes[i],state[i]])
